@@ -28,15 +28,33 @@ export const textMessageController = async (req, res) => {
       isImage: false,
     });
 
-    const { choices } = await openai.chat.completions.create({
-      model: "gemini-3.5-flash",
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-    });
+    // const { choices } = await openai.chat.completions.create({
+    //   model: "gemini-3.5-flash",
+    //   messages: [
+    //     {
+    //       role: "user",
+    //       content: prompt,
+    //     },
+    //   ],
+    // });
+
+       
+
+const response = await openai.chat.completions.create({
+  model: "gemini-flash-latest",
+  messages: [
+    {
+      role: "user",
+      content: prompt,
+    },
+  ],
+});
+
+
+
+const { choices } = response;
+
+ 
 
     const reply = {
       ...choices[0].message,
@@ -51,10 +69,21 @@ export const textMessageController = async (req, res) => {
 
     await User.updateOne({ _id: userId }, { $inc: { credits: -1 } });
   } catch (error) {
-    res.json({ success: false, message: error.message });
-  }
-};
+  console.error(error);
 
+  if (error.status === 429) {
+    return res.status(429).json({
+      success: false,
+      message: "Rate limit exceeded. Please wait a moment and try again.",
+    });
+  }
+
+  return res.status(500).json({
+    success: false,
+    message: error.message || "Something went wrong.",
+  });
+}
+};
 // Image Generation message controller
 export const imageMessageController = async (req, res) => {
   try {
