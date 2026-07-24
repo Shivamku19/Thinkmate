@@ -112,6 +112,7 @@ export const imageMessageController = async (req, res) => {
 
     // Construct ImageKit AI generation URL
     const generatedImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodedPrompt}/gpt/${Date.now()}.png?tr=w-800,h-800`;
+    console.log("Generated URL:", generatedImageUrl);
 
     // Trigger generation by fetching from ImageKit
     const aiImageResponse = await axios.get(generatedImageUrl, {
@@ -146,6 +147,15 @@ export const imageMessageController = async (req, res) => {
 
     await User.updateOne({ _id: userId }, { $inc: { credits: -2 } });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.log("========== IMAGE ERROR ==========");
+    console.log("Status:", error.response?.status);
+    console.log("Data:", error.response?.data);
+    console.log("Message:", error.message);
+    console.log(error);
+
+    return res.status(error.response?.status || 500).json({
+      success: false,
+      message: error.response?.data || error.message,
+    });
   }
 };

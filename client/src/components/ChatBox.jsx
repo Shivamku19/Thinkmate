@@ -14,7 +14,7 @@ const ChatBox = () => {
 
   const [prompt,setPrompt]=useState('')
   const [mode,setMode]=useState('text')
-   const [isPublished,setIsPublished]=useState('false')
+   const [isPublished,setIsPublished]=useState(false)
 
   const onSubmit = async (e) => {
   try {
@@ -66,8 +66,12 @@ const ChatBox = () => {
       setPrompt(promptCopy)
     }
   } catch (error) {
-    toast.error(error.message);
-  }finally{
+  console.log("Error:", error);
+  console.log("Status:", error.response?.status);
+  console.log("Response:", error.response?.data);
+
+  toast.error(error.response?.data?.message || error.message);
+}finally{
     setPrompt('')
     setLoading(false)
   }
