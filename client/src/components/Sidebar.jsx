@@ -150,7 +150,7 @@ const Sidebar = ({isMenuOpen,setIsMenuOpen}) => {
   <div className="flex flex-col text-sm">
     <p>Credits: {user?.credits}</p>
     <p className="text-xs text-gray-400">
-      Purchase credits to use quickgpt
+      Purchase credits to use Thinkmate
     </p>
   </div>
 </div>
