@@ -54,7 +54,7 @@ const ChatBox = () => {
 
     if (data.success) {
       setMessages((prev) => [...prev, data.reply]);
-      //decrease credits
+      //decrease credits updated
       if(mode==='image'){
         setUser(prev=>({...prev,credits:prev.credits-2}))
       }
