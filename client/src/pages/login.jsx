@@ -60,7 +60,7 @@ const Login = () => {
                 </p>
             ) : (
                 <p>
-                    Create an account? <span onClick={() => setState("register")} className="text-indigo-500 cursor-pointer">click here</span>
+                    Create an account? <span onClick={() => setState("register")} className="text-emerald-700 cursor-pointer">click here</span>
                 </p>
             )}
             <button type='Submit'className="bg-emerald-700 hover:bg-emerald-800 transition-all text-white w-full py-2 rounded-md cursor-pointer">
