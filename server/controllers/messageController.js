@@ -44,6 +44,10 @@ const response = await openai.chat.completions.create({
   model: "gemini-flash-latest",
   messages: [
     {
+      role: "system",
+      content: "You are ThinkMate, a helpful AI assistant. When asked about your identity, name, or who created you, always state that you are ThinkMate."
+    },
+    {
       role: "user",
       content: prompt,
     },
@@ -63,6 +67,25 @@ const { choices } = response;
     };
 
     res.json({ success: true, reply });
+
+    if (chat.name === "New Chat") {
+      try {
+        const titleResponse = await openai.chat.completions.create({
+          model: "gemini-flash-latest",
+          messages: [
+            {
+              role: "user",
+              content: `Generate a very short 3-4 word title for this prompt: "${prompt}". Only return the title, no quotes or extra text.`,
+            },
+          ],
+        });
+        if (titleResponse.choices && titleResponse.choices[0] && titleResponse.choices[0].message) {
+          chat.name = titleResponse.choices[0].message.content.trim().replace(/^["']|["']$/g, '');
+        }
+      } catch (err) {
+        console.error("Failed to generate title", err);
+      }
+    }
 
     chat.messages.push(reply);
     await chat.save();
@@ -141,6 +164,25 @@ export const imageMessageController = async (req, res) => {
     };
 
     res.json({ success: true, reply });
+
+    if (chat.name === "New Chat") {
+      try {
+        const titleResponse = await openai.chat.completions.create({
+          model: "gemini-flash-latest",
+          messages: [
+            {
+              role: "user",
+              content: `Generate a very short 3-4 word title for this prompt: "${prompt}". Only return the title, no quotes or extra text.`,
+            },
+          ],
+        });
+        if (titleResponse.choices && titleResponse.choices[0] && titleResponse.choices[0].message) {
+          chat.name = titleResponse.choices[0].message.content.trim().replace(/^["']|["']$/g, '');
+        }
+      } catch (err) {
+        console.error("Failed to generate title", err);
+      }
+    }
 
     chat.messages.push(reply);
     await chat.save();

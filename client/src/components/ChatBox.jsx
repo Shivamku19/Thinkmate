@@ -8,7 +8,7 @@ const ChatBox = () => {
 
   const containerRef=useRef(null)
 
-  const {selectedChat,theme,user,axios,token,setUser}=useAppContext()
+  const {selectedChat,theme,user,axios,token,setUser,setSelectedChat,fetchUsersChats}=useAppContext()
   const [messages,setMessages]=useState([])
   const [loading,setLoading]=useState(false)
 
@@ -38,10 +38,27 @@ const ChatBox = () => {
       },
     ]);
 
+    let currentChatId = selectedChat?._id;
+
+    if (!currentChatId) {
+      const { data: createData } = await axios.get("/api/chat/create", {
+        headers: { Authorization: token },
+      });
+      if (createData.success && createData.chat) {
+        currentChatId = createData.chat._id;
+        setSelectedChat(createData.chat);
+        fetchUsersChats();
+      } else {
+        toast.error("Failed to create chat");
+        setLoading(false);
+        return;
+      }
+    }
+
     const { data } = await axios.post(
       `/api/message/${mode}`,
       {
-        chatId: selectedChat._id,
+        chatId: currentChatId,
         prompt,
         isPublished,
       },
@@ -80,6 +97,8 @@ const ChatBox = () => {
   useEffect(()=>{
     if(selectedChat){
       setMessages(selectedChat.messages)
+    } else {
+      setMessages([])
     }
   },[selectedChat])
 
@@ -99,13 +118,12 @@ const ChatBox = () => {
     <div  ref={containerRef} className="flex-1 mb-5 overflow-y-scroll">
       {messages.length === 0 && (
         <div className="h-full flex flex-col items-center justify-center gap-2 text-primary">
-          <img
-            src={theme === 'dark' ? assets.logo_full : assets.logo_full_dark}
-            alt=""
-            className="w-full max-w-56 sm:max-w-68"
-          />
+          <div className="flex flex-col items-center gap-4 mb-4">
+            <img src={assets.logo_new} className="w-24 h-24 rounded-full shadow-lg" alt="ThinkMate Logo" />
+            <span className="text-4xl font-bold dark:text-white">Think<span className="text-[#10B981]">Mate</span></span>
+          </div>
           <p className="mt-5 text-4xl sm:text-6xl text-center text-gray-400 dark:text-white">
-            Ask me anything.
+            How can I help you today?
           </p>
         </div>
       )}
@@ -136,12 +154,12 @@ const ChatBox = () => {
 
 
   {/* Prompt Input Box */}
-<form onSubmit={onSubmit} className='bg-primary/20 dark:bg-[#583C79]/30 border border-primary dark:border-[#80609F]/30 rounded-full w-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center'>
+<form onSubmit={onSubmit} className='bg-primary/20 dark:bg-[#064E3B]/30 border border-primary dark:border-[#059669]/30 rounded-full w-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center'>
 
   <select onChange={(e) => setMode(e.target.value)} value={mode}
     className='text-sm pl-3 pr-2 outline-none'>
-    <option className='dark:bg-purple-900' value="text">Text</option>
-    <option className='dark:bg-purple-900' value="image">Image</option>
+    <option className='dark:bg-emerald-900' value="text">Text</option>
+    <option className='dark:bg-emerald-900' value="image">Image</option>
   </select>
 
   <input

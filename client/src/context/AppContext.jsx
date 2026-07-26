@@ -41,47 +41,26 @@ const fetchUser=async()=>{
 }
 
 const createNewChat = async () => {
+  if (!user) return toast("Login to create a new chat");
+  navigate("/");
+  setSelectedChat(null);
+};
+
+const fetchUsersChats = async () => {
   try {
-    if (!user) return toast("Login to create a new chat");
-
-    navigate("/");
-
-    await axios.get("/api/chat/create", {
-      headers: {
-        Authorization: token,
-      },
+    const { data } = await axios.get("/api/chat/get", {
+      headers: { Authorization: token },
     });
-    await fetchUsersChats()
+
+    if (data.success) {
+      setChats(data.chats);
+    } else {
+      toast.error(data.message);
+    }
   } catch (error) {
     toast.error(error.message);
   }
 };
-
-const fetchUsersChats=async()=>{
-   try {
-  const { data } = await axios.get("/api/chat/get", {
-    headers: {
-      Authorization: token,
-    },
-  });
-
-  if (data.success) {
-    setChats(data.chats);
-
-    // If the user has no chats, create one
-    if (data.chats.length === 0) {
-      await createNewChat();
-      return fetchUsersChats();
-    } else {
-      setSelectedChat(data.chats[0]);
-    }
-  } else {
-    toast.error(data.message);
-  }
-} catch (error) {
-  toast.error(error.message);
-}
-}
 
 useEffect(()=>{
   if(theme==='dark'){

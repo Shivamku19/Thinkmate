@@ -33,7 +33,7 @@ const Community = () => {
 
   return (
     <div className="p-6 pt-12 xl:px-12 2xl:px-20 w-full mx-auto h-full overflow-y-scroll">
-      <h2 className="text-xl font-semibold mb-6 text-gray-800 dark:text-purple-100">
+      <h2 className="text-xl font-semibold mb-6 text-gray-800 dark:text-emerald-100">
         Community Images
       </h2>
 
@@ -45,7 +45,7 @@ const Community = () => {
               href={item.imageUrl}
               target="_blank"
               className="relative group block rounded-lg overflow-hidden
-                         border border-gray-200 dark:border-purple-700
+                         border border-gray-200 dark:border-emerald-700
                          shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <img
@@ -67,7 +67,7 @@ const Community = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-600 dark:text-purple-200 mt-10">
+        <p className="text-center text-gray-600 dark:text-emerald-200 mt-10">
           No images available.
         </p>
       )}

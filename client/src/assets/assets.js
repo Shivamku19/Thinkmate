@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import logo_new from "./logo_new.jpg";
 import logo_full from "./logo_full.svg";
 import logo_full_dark from "./logo_full_dark.svg";
 import search_icon from "./search_icon.svg";
@@ -28,6 +29,7 @@ import ai_image11 from "./ai_image11.jpg";
 import ai_image12 from "./ai_image12.jpg";
 
 export const assets = {
+    logo_new,
     logo,
     logo_full,
     search_icon,

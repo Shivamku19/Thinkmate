@@ -48,22 +48,33 @@ const Sidebar = ({isMenuOpen,setIsMenuOpen}) => {
 
   return (
     <div
-  className={`flex flex-col h-screen min-w-72 p-5 
+  className={`flex flex-col h-screen p-5 
   dark:bg-linear-to-b dark:from-[#242124]/30 dark:to-[#000000]/30
-  border-r border-[#80609F]/30 backdrop-blur-3xl
+  border-r border-[#059669]/30 backdrop-blur-3xl
   transition-all duration-500 max-md:absolute left-0 z-1
-  ${!isMenuOpen && 'max-md:-translate-x-full'}`}
+  ${isMenuOpen ? 'w-72 min-w-72' : 'w-0 min-w-0 overflow-hidden p-0 border-0 opacity-0 max-md:-translate-x-full'}`}
 >
 
       {/*Logo*/}
-      <img
-        src={theme === "dark" ? assets.logo_full : assets.logo_full_dark}
-        alt=""
-        className="w-full max-w-48"
-      />
+      <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center gap-2 shrink-0">
+          <img src={assets.logo_new} className="w-9 h-9 rounded-full" alt="ThinkMate Logo" />
+          <span className="text-2xl font-bold dark:text-white">Think<span className="text-[#10B981]">Mate</span></span>
+        </div>
+        <div 
+          onClick={() => setIsMenuOpen(false)} 
+          className="p-2 cursor-pointer opacity-70 hover:opacity-100 z-50 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full"
+        >
+          <img 
+            src={assets.close_icon} 
+            className="w-5 h-5 not-dark:invert" 
+            alt="Close Sidebar" 
+          />
+        </div>
+      </div>
 
       {/* New Chat Button */}
-      <button onClick={createNewChat} className="flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-r from-[#A456F7] to-[#3D81F6] text-sm rounded-md cursor-pointer">
+      <button onClick={createNewChat} className="flex justify-center items-center w-full py-2 mt-10 text-white bg-linear-to-r from-[#10B981] to-[#0D9488] text-sm rounded-md cursor-pointer">
         <span className="mr-2 text-xl">+</span> New Chat
       </button>
 
@@ -97,7 +108,7 @@ const Sidebar = ({isMenuOpen,setIsMenuOpen}) => {
       <div
         onClick={()=>{navigate('/');setSelectedChat(chat); setIsMenuOpen(false)}}
         key={chat._id}
-        className="p-2 px-4 dark:bg-[#57317C]/10 border border-gray-300 dark:border-[#80609F]/15 rounded-md cursor-pointer flex justify-between group"
+        className="p-2 px-4 dark:bg-[#064E3B]/10 border border-gray-300 dark:border-[#059669]/15 rounded-md cursor-pointer flex justify-between group"
       >
         <div className="truncate w-full">
           <p>
@@ -173,7 +184,7 @@ const Sidebar = ({isMenuOpen,setIsMenuOpen}) => {
       className="sr-only peer"
       checked={theme === 'dark'}
     />
-    <div className="w-9 h-5 bg-gray-400 rounded-full peer-checked:bg-purple-600 transition-all"></div>
+    <div className="w-9 h-5 bg-gray-400 rounded-full peer-checked:bg-emerald-600 transition-all"></div>
     <span className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform peer-checked:translate-x-4"></span>
   </label>
 </div>
@@ -197,12 +208,7 @@ const Sidebar = ({isMenuOpen,setIsMenuOpen}) => {
   )}
 </div>
 
-<img
-  img onClick={()=>setIsMenuOpen(false)}
-  src={assets.close_icon}
-  className="absolute top-3 right-3 w-5 h-5 cursor-pointer md:hidden not-dark:invert"
-  alt=""
-/>
+
 
 
 
