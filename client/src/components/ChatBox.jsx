@@ -120,7 +120,7 @@ const ChatBox = () => {
         <div className="h-full flex flex-col items-center justify-center gap-2 text-primary">
           <div className="flex flex-col items-center gap-4 mb-4">
             <img src={assets.logo_new} className="w-24 h-24 rounded-full shadow-lg" alt="ThinkMate Logo" />
-            <span className="text-4xl font-bold text-black dark:text-white">ThinkMate</span>
+            <span className="text-4xl font-bold text-black dark:text-white">Think<span className="text-[#10B981]">Mate</span></span>
           </div>
           <p className="mt-5 text-4xl sm:text-6xl text-center text-black dark:text-white">
             How can I help you today?
