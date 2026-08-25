@@ -46,7 +46,7 @@ export const textMessageController = async (req, res) => {
        
 
 const response = await openai.chat.completions.create({
-  model: "gemini-flash-latest",
+  model: "llama-3.1-8b-instant",
   messages: [
     {
       role: "system",
@@ -76,7 +76,7 @@ const { choices } = response;
     if (chat.name === "New Chat") {
       try {
         const titleResponse = await openai.chat.completions.create({
-          model: "gemini-flash-latest",
+          model: "llama-3.1-8b-instant",
           messages: [
             {
               role: "user",
@@ -177,7 +177,7 @@ export const imageMessageController = async (req, res) => {
     if (chat.name === "New Chat") {
       try {
         const titleResponse = await openai.chat.completions.create({
-          model: "gemini-flash-latest",
+          model: "llama-3.1-8b-instant",
           messages: [
             {
               role: "user",
