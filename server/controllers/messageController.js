@@ -21,6 +21,11 @@ export const textMessageController = async (req, res) => {
     const { chatId, prompt } = req.body;
 
     const chat = await Chat.findOne({ userId, _id: chatId });
+    
+    if (!chat) {
+      return res.status(404).json({ success: false, message: "Chat not found. Please start a new chat." });
+    }
+
     chat.messages.push({
       role: "user",
       content: prompt,
@@ -121,6 +126,10 @@ export const imageMessageController = async (req, res) => {
     const { prompt, chatId, isPublished } = req.body;
     //Find chat
     const chat = await Chat.findOne({ userId, _id: chatId });
+
+    if (!chat) {
+      return res.status(404).json({ success: false, message: "Chat not found. Please start a new chat." });
+    }
 
     // push user message
     chat.messages.push({
