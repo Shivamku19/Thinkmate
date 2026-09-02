@@ -145,25 +145,25 @@ export const imageMessageController = async (req, res) => {
     // Encode the prompt
     const encodedPrompt = encodeURIComponent(prompt);
 
-    // Construct ImageKit AI generation URL
-    const generatedImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodedPrompt}/gpt/${Date.now()}.png?tr=w-800,h-800`;
+    // Construct image generation URL (using a synchronous free API to prevent async HTML issues)
+    const generatedImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?nologo=true`;
     console.log("Generated URL:", generatedImageUrl);
 
-    // Trigger generation by fetching from ImageKit
+    // Trigger generation and wait for the image buffer
     const aiImageResponse = await axios.get(generatedImageUrl, {
       responseType: "arraybuffer",
     });
 
     // Convert to Base64
-    const base64Image = `data:image/png;base64,${Buffer.from(
+    const base64Image = `data:image/jpeg;base64,${Buffer.from(
       aiImageResponse.data,
-      "binary",
+      "binary"
     ).toString("base64")}`;
 
-    // Upload to ImageKit Media Library
+    // Upload the valid image to ImageKit Media Library
     const uploadResponse = await imagekit.upload({
       file: base64Image,
-      fileName: `${Date.now()}.png`,
+      fileName: `${Date.now()}.jpg`,
       folder: "thinkmate",
     });
 
