@@ -43,21 +43,24 @@ export const textMessageController = async (req, res) => {
     //   ],
     // });
 
-       
+    // Filter and format previous messages for the API (only text)
+    const conversationHistory = chat.messages
+      .filter(msg => !msg.isImage)
+      .map(msg => ({
+        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        content: msg.content
+      }));
 
-const response = await openai.chat.completions.create({
-  model: "openai/gpt-oss-20b",
-  messages: [
-    {
-      role: "system",
-      content: "You are ThinkMate, a helpful AI assistant. When asked about your identity, name, or who created you, always state that you are ThinkMate."
-    },
-    {
-      role: "user",
-      content: prompt,
-    },
-  ],
-});
+    const response = await openai.chat.completions.create({
+      model: "llama-3.1-70b-versatile", // Using a highly capable Groq model
+      messages: [
+        {
+          role: "system",
+          content: "You are ThinkMate, a helpful AI assistant. When asked about your identity, name, or who created you, always state that you are ThinkMate. You should provide factual answers to questions about public figures and officials."
+        },
+        ...conversationHistory
+      ],
+    });
 
 
 
@@ -76,7 +79,7 @@ const { choices } = response;
     if (chat.name === "New Chat") {
       try {
         const titleResponse = await openai.chat.completions.create({
-          model: "openai/gpt-oss-20b",
+          model: "llama-3.1-8b-instant",
           messages: [
             {
               role: "user",
@@ -177,7 +180,7 @@ export const imageMessageController = async (req, res) => {
     if (chat.name === "New Chat") {
       try {
         const titleResponse = await openai.chat.completions.create({
-          model: "openai/gpt-oss-20b",
+          model: "llama-3.1-8b-instant",
           messages: [
             {
               role: "user",
