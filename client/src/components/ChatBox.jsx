@@ -32,7 +32,7 @@ const ChatBox = () => {
       ...prev,
       {
         role: "user",
-        content: prompt,
+        content: promptCopy,
         timestamp: Date.now(),
         isImage: false,
       },
@@ -46,6 +46,17 @@ const ChatBox = () => {
       });
       if (createData.success && createData.chat) {
         currentChatId = createData.chat._id;
+        
+        // Inject the user's message so the useEffect doesn't clear it
+        createData.chat.messages = [
+          {
+            role: "user",
+            content: promptCopy,
+            timestamp: Date.now(),
+            isImage: false,
+          }
+        ];
+        
         setSelectedChat(createData.chat);
         fetchUsersChats();
       } else {
