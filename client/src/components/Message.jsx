@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { assets } from '../assets/assets'
 import moment from 'moment'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import Prism from 'prismjs'
 import toast from 'react-hot-toast'
 
@@ -59,7 +60,7 @@ useEffect(()=>{
           ) : (
             <>
               <div className="text-sm dark:text-primary reset-tw">
-                <Markdown>{message.content}</Markdown>
+                <Markdown remarkPlugins={[remarkGfm]}>{message.content}</Markdown>
               </div>
               <div className="flex justify-between items-center mt-1">
                 <span className='text-xs text-gray-400 dark:text-[#B1A6C0]'>{moment(message.timestamp).fromNow()}</span>

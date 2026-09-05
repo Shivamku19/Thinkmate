@@ -15,6 +15,53 @@
   all:revert;
 }
 
+.reset-tw table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.reset-tw th, .reset-tw td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem;
+}
+.reset-tw th {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.dark .reset-tw th, .dark .reset-tw td {
+  border-color: #374151;
+}
+.dark .reset-tw th {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.reset-tw p, .reset-tw ul, .reset-tw ol {
+  margin-bottom: 1rem;
+}
+.reset-tw ul { list-style-type: disc; padding-left: 2rem; }
+.reset-tw ol { list-style-type: decimal; padding-left: 2rem; }
+.reset-tw h1, .reset-tw h2, .reset-tw h3 { margin-top: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
+.reset-tw h1 { font-size: 1.5rem; }
+.reset-tw h2 { font-size: 1.25rem; }
+.reset-tw h3 { font-size: 1.125rem; }
+.reset-tw code:not([class*="language-"]) {
+  background-color: rgba(0,0,0,0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+.dark .reset-tw code:not([class*="language-"]) {
+  background-color: rgba(255,255,255,0.1);
+}
+.reset-tw blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+.dark .reset-tw blockquote {
+  border-left-color: #4b5563;
+  color: #9ca3af;
+}
+
 .load div:nth-child(2){
   animation-delay: 0.2s;
 }
