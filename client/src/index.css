@@ -18,20 +18,25 @@
 .reset-tw table {
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: 1rem;
+  margin: 1.5rem 0;
 }
 .reset-tw th, .reset-tw td {
-  border: 1px solid #d1d5db;
-  padding: 0.5rem;
+  border: none;
+  padding: 1rem 1.5rem 1rem 0;
+  text-align: left;
+  vertical-align: top;
 }
 .reset-tw th {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-.dark .reset-tw th, .dark .reset-tw td {
-  border-color: #374151;
+  background-color: transparent;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e7eb;
 }
 .dark .reset-tw th {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: transparent;
+  border-bottom: 1px solid #374151;
+}
+.reset-tw tr {
+  border-bottom: 1px solid transparent;
 }
 .reset-tw p, .reset-tw ul, .reset-tw ol {
   margin-bottom: 1rem;
