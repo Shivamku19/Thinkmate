@@ -138,7 +138,11 @@ const ChatBox = () => {
           </p>
         </div>
       )}
-      {messages.map((message,index)=><Message key={index} message={message}/>)}
+      {messages.length > 0 && (
+        <div className="w-full max-w-4xl mx-auto flex flex-col">
+          {messages.map((message,index)=><Message key={index} message={message}/>)}
+        </div>
+      )}
     </div>
     {/* Three Dots Loading  */}
 {
