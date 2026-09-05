@@ -23,13 +23,24 @@ useEffect(()=>{
           </div>
         </div>
       ) : (
-        <div className="flex items-start gap-4 my-6">
+        <div className="flex items-start my-6 relative">
+          {/* Desktop Avatar: Hangs in the left margin so text aligns with the input box */}
+          <div className="hidden md:block absolute -left-14 top-0">
+            <img
+              src={assets.logo_new}
+              alt="AI"
+              className="w-8 h-8 rounded-full shadow-sm"
+            />
+          </div>
+          
+          {/* Mobile Avatar: Inline */}
           <img
             src={assets.logo_new}
             alt="AI"
-            className="w-8 h-8 rounded-full shadow-sm"
+            className="w-8 h-8 rounded-full shadow-sm md:hidden mr-3 shrink-0"
           />
-          <div className="flex flex-col gap-2 flex-1 max-w-3xl">
+          
+          <div className="flex flex-col gap-2 flex-1 min-w-0">
             {message.isImage ? (
               <>
                 <img
