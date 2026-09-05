@@ -139,7 +139,7 @@ const ChatBox = () => {
         </div>
       )}
       {messages.length > 0 && (
-        <div className="w-full max-w-4xl mx-auto flex flex-col">
+        <div className="w-full max-w-3xl mx-auto flex flex-col">
           {messages.map((message,index)=><Message key={index} message={message}/>)}
         </div>
       )}
@@ -169,7 +169,7 @@ const ChatBox = () => {
 
 
   {/* Prompt Input Box */}
-<form onSubmit={onSubmit} className='bg-primary/20 dark:bg-[#064E3B]/30 border border-primary dark:border-[#059669]/30 rounded-full w-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center'>
+<form onSubmit={onSubmit} className='bg-primary/20 dark:bg-[#064E3B]/30 border border-primary dark:border-[#059669]/30 rounded-full w-full max-w-3xl p-3 pl-4 mx-auto flex gap-4 items-center'>
 
   <select onChange={(e) => setMode(e.target.value)} value={mode}
     className='text-sm pl-3 pr-2 outline-none'>
