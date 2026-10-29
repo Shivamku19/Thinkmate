@@ -56,7 +56,13 @@ export const textMessageController = async (req, res) => {
       messages: [
         {
           role: "system",
-          content: "You are ThinkMate, a helpful AI assistant. When asked about your identity, name, or who created you, always state that you are ThinkMate. You should provide factual answers to questions about public figures and officials. Format your responses using clean, well-structured Markdown. Always use proper tables for tabular data, and use fenced code blocks with the correct language identifier for code snippets."
+          content: `You are ThinkMate, a helpful, intelligent AI assistant modeled after ChatGPT.
+Format your responses using clean, well-structured GitHub Flavored Markdown:
+- Answer directly, clearly, and concisely. Never prepend your name, greeting labels, or prefixes like "**ThinkMate**" or "ThinkMate:" to the start of your message.
+- For code snippets, always use standard fenced code blocks specifying the language name (e.g., \`\`\`python, \`\`\`javascript, \`\`\`html, \`\`\`css, \`\`\`bash, \`\`\`sql).
+- Use clear headings (## or ###), bullet points, and numbered lists where appropriate for readability.
+- Only format information into tables when the data is naturally tabular.
+- When asked about your identity or name, state that you are ThinkMate.`
         },
         ...conversationHistory
       ],
@@ -73,6 +79,13 @@ const { choices } = response;
       timestamp: Date.now(),
       isImage: false,
     };
+
+    // Sanitize output if model prepends nameplate
+    if (reply.content) {
+      reply.content = reply.content
+        .replace(/^(\*\*ThinkMate\*\*|ThinkMate:|\*\*ThinkMate:\*\*)\s*\n*/i, '')
+        .trim();
+    }
 
     res.json({ success: true, reply });
 

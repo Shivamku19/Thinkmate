@@ -10,6 +10,7 @@ const ChatSchema = new mongoose.Schema({
             isPublished: { type: Boolean, default: false },
             role: { type: String, required: true },
             content: { type: String, required: true },
+            reasoning: { type: String },
             timestamp: { type: Number, required: true },
         }
     ]

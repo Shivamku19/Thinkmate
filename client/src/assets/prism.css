@@ -6,7 +6,7 @@ code[class*="language-"] {
 	font-family: Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace;
 	direction: ltr;
 	text-align: left;
-	white-space: pre-wrap;
+	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
 	line-height: 1.5;
@@ -18,8 +18,8 @@ code[class*="language-"] {
 	-ms-hyphens: none;
 	hyphens: none;
 	width:100%;
-	max-width: 60vw;
-	border-radius: 10px !important;
+	max-width: 100%;
+	
 }
 
 pre[class*="language-"]::selection,
@@ -41,14 +41,14 @@ pre[class*="language-"] {
 	padding: 1em;
 	margin: .5em 0;
 	overflow: auto;
-	background: #1e1e1e;
+	background: transparent;
 }
 
 :not(pre) > code[class*="language-"] {
 	padding: .1em .3em;
 	border-radius: .3em;
 	color: #db4c69;
-	background: #1e1e1e;
+	background: transparent;
 }
 /*********************************************************
 * Tokens

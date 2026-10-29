@@ -1,77 +1,91 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark,.dark *));
-*{
-    font-family: "Outfit", sans-serif;
+
+* {
+  font-family: "Outfit", sans-serif;
 }
-@theme{
-  --color-primary:#D1FAE5;
+
+@theme {
+  --color-primary: #D1FAE5;
 }
-::-webkit-scrollbar{
+
+::-webkit-scrollbar {
   display: none;
 }
 
-.reset-tw :not(pre):not(code){
-  all:revert;
+/* Enable subtle scrollbar specifically on code blocks */
+pre::-webkit-scrollbar {
+  display: block;
+  height: 6px;
+}
+pre::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 4px;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+pre::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }
 
-.reset-tw table {
-  border-collapse: collapse;
-  width: 100%;
+/* Chat Markdown Typography & ChatGPT-style formatting */
+.markdown-content {
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.markdown-content p {
+  margin-bottom: 1rem;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+}
+
+.markdown-content h1 { font-size: 1.5rem; }
+.markdown-content h2 { font-size: 1.3rem; }
+.markdown-content h3 { font-size: 1.15rem; }
+.markdown-content h4 { font-size: 1rem; }
+
+.markdown-content hr {
   margin: 1.5rem 0;
-}
-.reset-tw th, .reset-tw td {
-  border: none;
-  padding: 1rem 1.5rem 1rem 0;
-  text-align: left;
-  vertical-align: top;
-}
-.reset-tw th {
-  background-color: transparent;
-  font-weight: 700;
-  border-bottom: 1px solid #e5e7eb;
-}
-.dark .reset-tw th {
-  background-color: transparent;
-  border-bottom: 1px solid #374151;
-}
-.reset-tw tr {
-  border-bottom: 1px solid transparent;
-}
-.reset-tw p, .reset-tw ul, .reset-tw ol {
-  margin-bottom: 1rem;
-}
-.reset-tw ul { list-style-type: disc; padding-left: 2rem; }
-.reset-tw ol { list-style-type: decimal; padding-left: 2rem; }
-.reset-tw h1, .reset-tw h2, .reset-tw h3 { margin-top: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
-.reset-tw h1 { font-size: 1.5rem; }
-.reset-tw h2 { font-size: 1.25rem; }
-.reset-tw h3 { font-size: 1.125rem; }
-.reset-tw code:not([class*="language-"]) {
-  background-color: rgba(0,0,0,0.1);
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-family: monospace;
-}
-.dark .reset-tw code:not([class*="language-"]) {
-  background-color: rgba(255,255,255,0.1);
-}
-.reset-tw blockquote {
-  border-left: 4px solid #d1d5db;
-  padding-left: 1rem;
-  color: #4b5563;
-  margin-bottom: 1rem;
-}
-.dark .reset-tw blockquote {
-  border-left-color: #4b5563;
-  color: #9ca3af;
+  border-color: rgba(156, 163, 175, 0.3);
 }
 
-.load div:nth-child(2){
+.load div:nth-child(2) {
   animation-delay: 0.2s;
 }
 
-.load div:nth-child(3){
+.load div:nth-child(3) {
   animation-delay: 0.4s;
 }
-

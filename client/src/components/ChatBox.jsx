@@ -70,7 +70,7 @@ const ChatBox = () => {
       `/api/message/${mode}`,
       {
         chatId: currentChatId,
-        prompt,
+        prompt: promptCopy,
         isPublished,
       },
       {
@@ -139,19 +139,34 @@ const ChatBox = () => {
         </div>
       )}
       {messages.length > 0 && (
-        <div className="w-full max-w-3xl mx-auto flex flex-col">
+        <div className="w-full max-w-3xl mx-auto flex flex-col px-3 md:px-14 lg:px-0">
           {messages.map((message,index)=><Message key={index} message={message}/>)}
+          {loading && (
+            <div className="flex items-start my-6 relative">
+              <div className="hidden md:block absolute -left-14 top-0">
+                <img
+                  src={assets.logo_new}
+                  alt="ThinkMate"
+                  className="w-8 h-8 rounded-full shadow-sm"
+                />
+              </div>
+              <img
+                src={assets.logo_new}
+                alt="ThinkMate"
+                className="w-8 h-8 rounded-full shadow-sm md:hidden mr-3 shrink-0"
+              />
+              <div className="flex items-center gap-1.5 py-2.5 px-1">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce"></div>
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.2s]"></div>
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.4s]"></div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
     {/* Three Dots Loading  */}
-{
-  loading && <div className='loader flex items-center gap-1.5'>
-    <div className='w-1.5 h-1.5 rounded-full bg-gray-500 dark:bg-white animate-bounce'></div>
-    <div className='w-1.5 h-1.5 rounded-full bg-gray-500 dark:bg-white animate-bounce'></div>
-    <div className='w-1.5 h-1.5 rounded-full bg-gray-500 dark:bg-white animate-bounce'></div>
-  </div>
-}
+
 
 {mode === "image" && (
   <label className='inline-flex items-center gap-2 mb-3 text-sm mx-auto'>
