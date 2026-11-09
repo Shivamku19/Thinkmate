@@ -4,6 +4,12 @@ import { assets } from '../assets/assets';
 import Message from './Message';
 import toast from 'react-hot-toast';
 
+const SEARCH_STATUS_STEPS = [
+  'Searching the live web for verified data...',
+  'Analyzing sources and fact-checking...',
+  'Synthesizing grounded response...',
+];
+
 const ChatBox = () => {
   const containerRef = useRef(null);
 
@@ -19,11 +25,24 @@ const ChatBox = () => {
   } = useAppContext();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingStepIndex, setLoadingStepIndex] = useState(0);
 
   const [prompt, setPrompt] = useState('');
   const [mode, setMode] = useState('text');
   const [isPublished, setIsPublished] = useState(false);
   const [webSearchMode, setWebSearchMode] = useState('auto'); // 'auto' | 'enabled' | 'disabled'
+
+  // Animate search status steps while loading
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      setLoadingStepIndex(0);
+      interval = setInterval(() => {
+        setLoadingStepIndex((prev) => (prev + 1) % SEARCH_STATUS_STEPS.length);
+      }, 1600);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const toggleWebSearch = () => {
     setWebSearchMode((prev) => {
@@ -186,8 +205,31 @@ const ChatBox = () => {
                   alt="ThinkMate"
                   className="w-8 h-8 rounded-full shadow-sm md:hidden mr-3 shrink-0"
                 />
-                <div className="flex items-center gap-2 py-2.5 px-1 text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1.5">
+                <div className="flex flex-col gap-1.5 py-1 px-1">
+                  <div className="flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                    <svg
+                      className="animate-spin"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                      <path d="M12 2a10 10 0 0 1 10 10" />
+                    </svg>
+                    <span>
+                      {mode === 'image'
+                        ? 'Creating your image...'
+                        : webSearchMode === 'disabled'
+                        ? 'Thinking...'
+                        : SEARCH_STATUS_STEPS[loadingStepIndex]}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 pl-0.5">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce"></div>
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.2s]"></div>
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.4s]"></div>
