@@ -5,7 +5,10 @@ Thinkmate is an AI-powered conversational assistant and creative platform. It of
 ## 🚀 Features
 
 ### For Users
-- **Intelligent Chat:** Engage in rich, interactive conversations powered by advanced OpenAI models.
+- **Intelligent Chat:** Engage in rich, interactive conversations powered by advanced Groq/OpenAI models.
+- **🌐 Real-Time Web Search & Grounding:** Eliminates hallucinations on current facts, leadership (e.g., "who is the director of IIIT Bhagalpur"), recent events, news, and temporal queries with multi-engine web search (DuckDuckGo Lite, Wikipedia, and optional Tavily AI).
+- **Interactive Source Citations:** Browse consulted sources with live domain pills, favicons, and clickable inline reference links (`[1]`, `[2]`).
+- **Web Search Control:** Toggle between Auto Search, Forced Web Search ON, or Offline reasoning right from the chat input.
 - **Code & Markdown Support:** Enjoy beautifully formatted responses with syntax highlighting via Prism.js and React Markdown.
 - **Community Gallery:** Browse, publish, and explore AI-generated images within the community.
 - **Credits Management:** Monitor your AI usage credits and seamlessly purchase more through Stripe integration.
