@@ -82,6 +82,22 @@ pre::-webkit-scrollbar-thumb:hover {
   border-color: rgba(156, 163, 175, 0.3);
 }
 
+/* Web Search & Grounding Animations */
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+}
+
+.pulse-subtle {
+  animation: pulseSubtle 2s infinite ease-in-out;
+}
+
 .load div:nth-child(2) {
   animation-delay: 0.2s;
 }
