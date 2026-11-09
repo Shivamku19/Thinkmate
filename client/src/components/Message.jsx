@@ -78,6 +78,15 @@ const formatMath = (content) => {
     .replace(/\\cdot\b/g, '·');
 };
 
+const extractDomain = (url) => {
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname.replace(/^www\./, '');
+  } catch {
+    return 'source';
+  }
+};
+
 // ChatGPT-style Code Block component
 const CodeBlock = ({ language, code }) => {
   const [copied, setCopied] = useState(false);
@@ -218,6 +227,63 @@ const Message = ({ message }) => {
               </>
             ) : (
               <>
+                {/* Real-Time Web Search Sources Shelf */}
+                {message.sources && message.sources.length > 0 && (
+                  <div className="mb-3.5 p-3 rounded-2xl bg-gray-50/90 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/60 shadow-xs">
+                    <div className="flex items-center justify-between gap-2 mb-2 text-xs text-gray-600 dark:text-gray-300 font-medium">
+                      <div className="flex items-center gap-1.5">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#10B981"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <line x1="2" y1="12" x2="22" y2="12" />
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">
+                          Sources consulted
+                        </span>
+                        <span className="text-[11px] px-1.5 py-0.2 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold">
+                          {message.sources.length}
+                        </span>
+                      </div>
+                      {message.searchQuery && (
+                        <span className="text-gray-400 dark:text-gray-500 text-[11px] italic truncate max-w-[200px] sm:max-w-xs">
+                          &ldquo;{message.searchQuery}&rdquo;
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {message.sources.map((src, i) => (
+                        <a
+                          key={i}
+                          href={src.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={`${src.title}\n\n${src.snippet}`}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs bg-white dark:bg-gray-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 text-gray-700 dark:text-gray-300 border border-gray-200/90 dark:border-gray-700/80 hover:border-emerald-500/40 dark:hover:border-emerald-500/40 transition-all max-w-[260px] truncate shadow-2xs group cursor-pointer"
+                        >
+                          <span className="w-4 h-4 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold text-[10px] flex items-center justify-center shrink-0">
+                            {i + 1}
+                          </span>
+                          <span className="font-medium text-gray-900 dark:text-gray-100 truncate text-[11.5px] group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                            {extractDomain(src.url)}
+                          </span>
+                          <span className="text-gray-400 dark:text-gray-500 truncate text-[11px] hidden sm:inline">
+                            - {src.title}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Optional Collapsible Reasoning (Thought Process like modern GPT/o1) */}
                 {message.reasoning && (
                   <div className="mb-3 border border-gray-200 dark:border-gray-700/70 rounded-xl overflow-hidden bg-gray-50/70 dark:bg-gray-800/40 text-xs">
@@ -350,14 +416,44 @@ const Message = ({ message }) => {
                         return <input type={type} {...props} />;
                       },
                       a({ href, children }) {
+                        const label = String(children || '').trim();
+                        const isNumericCitation = /^\[?\d+\]?$/.test(label);
+                        if (isNumericCitation) {
+                          return (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={`Open source: ${href}`}
+                              className="inline-flex items-center justify-center px-1.5 py-0.5 mx-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300/80 dark:border-emerald-700/60 rounded-md hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors no-underline align-baseline cursor-pointer"
+                            >
+                              {label.replace(/^\[|\]$/g, '')}
+                            </a>
+                          );
+                        }
                         return (
                           <a
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
+                            className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium inline-flex items-center gap-0.5"
                           >
-                            {children}
+                            <span>{children}</span>
+                            <svg
+                              width="11"
+                              height="11"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="opacity-70 inline"
+                            >
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                              <polyline points="15 3 21 3 21 9" />
+                              <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
                           </a>
                         );
                       },
@@ -372,7 +468,17 @@ const Message = ({ message }) => {
 
                 {/* Bottom action bar */}
                 <div className="flex justify-between items-center mt-2 pt-1">
-                  <span className='text-xs text-gray-400'>{moment(message.timestamp).fromNow()}</span>
+                  <div className="flex items-center gap-2">
+                    <span className='text-xs text-gray-400'>{moment(message.timestamp).fromNow()}</span>
+                    {message.isWebSearch && (
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Grounded with live web
+                      </span>
+                    )}
+                  </div>
                   <button 
                     onClick={handleCopyMessage}
                     className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer flex items-center gap-1.5 text-xs p-1 rounded transition-colors"
